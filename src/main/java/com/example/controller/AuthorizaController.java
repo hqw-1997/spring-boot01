@@ -29,10 +29,8 @@ public class AuthorizaController {
     private String redirectUri;
 
     @Autowired
-    private User user;
-
-    @Autowired
     private UserMapper userMapper;
+
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
@@ -49,14 +47,14 @@ public class AuthorizaController {
        // System.out.println(user.getName());
         if(githubUser!=null){
             //写cookie和session
+            User user=new User();
             user.setName(githubUser.getName());
             user.setAccount_id(String.valueOf(githubUser.getId()));
-            user.setToken(UUID.randomUUID().toString());
-            user.setGmt_create(System.currentTimeMillis());
+            user.setToken(UUID.randomUUID().toString());//产出随机数作为用户token
+            user.setGmt_create(System.currentTimeMillis());//用当前毫秒数作为用户创建时间
             user.setGmt_modified(user.getGmt_create());
             userMapper.insertUser(user);
             request.getSession().setAttribute("user", githubUser);
-            System.out.println(githubUser.getName());
             return "redirect:/";//返回根目录
         }else {
             return "redirect:/";
