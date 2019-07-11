@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -35,26 +35,28 @@ public class AuthorizaController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
                            @RequestParam(name="state") String state,
-                           HttpServletRequest request){
+                           HttpServletResponse response){
         AccessTokenDto accessTokenDto=new AccessTokenDto();
         accessTokenDto.setClient_id(clientid);
         accessTokenDto.setClient_secret(clientSecret);
         accessTokenDto.setCode(code);
         accessTokenDto.setRedirect_uri(redirectUri);
         accessTokenDto.setState(state);
-        String token=githubProvider.getAccessToken(accessTokenDto);
-        GithubUser githubUser=githubProvider.getUser(token);
+        String githunToken=githubProvider.getAccessToken(accessTokenDto);
+        GithubUser githubUser=githubProvider.getUser(githunToken);
+
        // System.out.println(user.getName());
         if(githubUser!=null){
             //写cookie和session
             User user=new User();
+            String token=UUID.randomUUID().toString();
             user.setName(githubUser.getName());
             user.setAccount_id(String.valueOf(githubUser.getId()));
-            user.setToken(UUID.randomUUID().toString());//产出随机数作为用户token
+            user.setToken(token);//产出随机数作为用户token
             user.setGmt_create(System.currentTimeMillis());//用当前毫秒数作为用户创建时间
             user.setGmt_modified(user.getGmt_create());
+            response.addCookie(new Cookie("token", token));
             userMapper.insertUser(user);
-            request.getSession().setAttribute("user", githubUser);
             return "redirect:/";//返回根目录
         }else {
             return "redirect:/";
