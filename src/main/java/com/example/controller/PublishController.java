@@ -34,21 +34,7 @@ public class PublishController {
             HttpServletRequest request,
             Model model
     ){
-        User user=null;
-        Cookie[] cookies=request.getCookies();
-        if(cookies!=null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    user = userMapper.findUserByToken(token);
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-
-                }
-            }
-        }
+        User user=(User) request.getSession().getAttribute("user");
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
@@ -56,25 +42,28 @@ public class PublishController {
             model.addAttribute("error", "用户未登录");
             return "publish";
         }
-        if(title==null||title==""){
+        else if(title==null||title==""){
             model.addAttribute("error", "问题标题不能为空");
             return "publish";
         }
-        if(description==null||description==""){
+        else if(description==null||description==""){
             model.addAttribute("error", "问题补充不能为空");
             return "publish";
         }
-        if(tag==null||tag==""){
+        else if(tag==null||tag==""){
             model.addAttribute("error", "标签不能为空");
         }
-        Question question=new Question();
-        question.setTitle(title);
-        question.setDescription(description);
-        question.setTag(tag);
-        question.setCreator(user.getId());
-        question.setGmt_create(System.currentTimeMillis());
-        question.setGmt_modified(question.getGmt_create());
-        questionMapper.insertQuestion(question);
+        else {
+            Question question = new Question();
+            question.setTitle(title);
+            question.setDescription(description);
+            question.setTag(tag);
+            question.setCreator(user.getId());
+            question.setGmt_create(System.currentTimeMillis());
+            question.setGmt_modified(question.getGmt_create());
+            questionMapper.insertQuestion(question);
+            model.addAttribute("error", "发布成功");
+        }
         return "publish";
     }
 }

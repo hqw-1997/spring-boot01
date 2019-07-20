@@ -51,13 +51,14 @@ public class AuthorizaController {
             User user=new User();
             String token=UUID.randomUUID().toString();
             user.setName(githubUser.getName());
+            user.setPhoto(githubUser.getAvatar_url());
             user.setAccount_id(String.valueOf(githubUser.getId()));
             user.setToken(token);//产出随机数作为用户token
             user.setGmt_create(System.currentTimeMillis());//用当前毫秒数作为用户创建时间
             user.setGmt_modified(user.getGmt_create());
             response.addCookie(new Cookie("token", token));
             userMapper.insertUser(user);
-            return "redirect:/";//返回根目录
+            return "redirect:/";//返回根目
         }else {
             return "redirect:/";
         }

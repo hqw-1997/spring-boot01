@@ -7,7 +7,26 @@ body{
     margin:30px;
 }
 
+.main-index{
+    background-color:white;
+    margin:70px;
+}
+
 .btn-publish{
     float:right;
     margin-bottom:15px;
+}
+
+.paging{
+    float:right;
+    margin-bottom:15px;
+}
+
+.photo-size{
+    height:38px;
+    width:38px;
+}
+
+.profile-nav{
+    margin-top:15px;
 }

@@ -1,6 +1,8 @@
-package com.example.model;
+package com.example.dto;
 
-public class Question {
+import com.example.model.User;
+
+public class QuestionDto {
     private int id;
     private String title;
     private String description;
@@ -11,6 +13,7 @@ public class Question {
     private int view_count;
     private int like_count;
     private String tag;
+    private User user;
 
     public int getId() {
         return id;
@@ -92,9 +95,17 @@ public class Question {
         this.tag = tag;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
-        return "Question{" +
+        return "QuestionDto{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
@@ -105,6 +116,7 @@ public class Question {
                 ", view_count=" + view_count +
                 ", like_count=" + like_count +
                 ", tag='" + tag + '\'' +
+                ", user=" + user +
                 '}';
     }
 }
