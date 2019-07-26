@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>学习使用</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/study-use.css"/>
+    <link rel="stylesheet" href="/css/study-use.css"/>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"  type="application/javascript"></script>
+</head>
+<body>
+<div th:replace="~{head :: nav}"></div>
+<div class="container-fluid main">
+    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h3><span th:text="${sectionName}"></span></h3>
+            <hr>
+            <div class="media" th:each="question:${question}">
+
+                <div class="media-body">
+                    <h2 class="media-heading" th:text="${question.title}"></h2>
+                    <span><font color="#999" th:text="'浏览数'+${question.view_count}"></br></font></span> |
+                    <span><font color="#999" th:text="'点赞数'+${question.comment_count}"></br></font></span> |
+                    <span><font color="#999" th:text="'发布时间'+${question.date}"></br></font></span>
+                    <hr>
+                    <span th:text="${question.description}"></span></br>
+                    <hr>
+                    <a href="/publish"><span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span></a>
+
+                </div>
+            </div>
+    </div>
+    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+        <h3>发起人</h3></br>
+        <span th:text="${question.user.name}"></span></br>
+        <h3>相关问题</h3></br>
+    </div>
+</div>
+</body>
+</html>

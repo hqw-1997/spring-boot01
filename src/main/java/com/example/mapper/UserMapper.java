@@ -1,10 +1,7 @@
 package com.example.mapper;
 
 import com.example.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,5 +17,10 @@ public interface UserMapper {
     @Select("SELECT * FROM user where id= #{id}")
     User findUserById(@Param("id") int id);
 
+    @Select("SELECT * FROM user where Account_id= #{Account_id}")
+    User findUserByAccount_id(@Param("Account_id") String Account_id);
+
+    @Update("update user set name=#{name},token=#{token},gmt_modified=#{gmt_modified},photo=#{photo}")
+    void updateUserByAccount_id(User user);
 }
 

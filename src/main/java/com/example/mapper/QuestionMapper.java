@@ -1,5 +1,6 @@
 package com.example.mapper;
 
+import com.example.dto.QuestionDto;
 import com.example.model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -26,4 +27,7 @@ public interface QuestionMapper {
 
     @Select("select * from question where creator=#{id} limit #{page},#{size}")
     List<Question> viewQuestionById(@Param("page") int page,@Param("size") int size,@Param("id")int id);
+
+    @Select("select * from question where id=#{id}")
+    QuestionDto findQuestionById(@Param("id")Integer id);
 }

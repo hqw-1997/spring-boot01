@@ -2,6 +2,9 @@ package com.example.dto;
 
 import com.example.model.User;
 
+import java.util.Date;
+
+
 public class QuestionDto {
     private int id;
     private String title;
@@ -14,6 +17,9 @@ public class QuestionDto {
     private int like_count;
     private String tag;
     private User user;
+    private String date;
+
+
 
     public int getId() {
         return id;
@@ -101,6 +107,14 @@ public class QuestionDto {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     @Override

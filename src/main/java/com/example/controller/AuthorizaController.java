@@ -5,12 +5,14 @@ import com.example.dto.GithubUser;
 import com.example.mapper.UserMapper;
 import com.example.model.User;
 import com.example.provider.GithubProvider;
+import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -30,6 +32,9 @@ public class AuthorizaController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private UserService userService;
 
 
     @GetMapping("/callback")
@@ -54,13 +59,21 @@ public class AuthorizaController {
             user.setPhoto(githubUser.getAvatar_url());
             user.setAccount_id(String.valueOf(githubUser.getId()));
             user.setToken(token);//产出随机数作为用户token
-            user.setGmt_create(System.currentTimeMillis());//用当前毫秒数作为用户创建时间
-            user.setGmt_modified(user.getGmt_create());
             response.addCookie(new Cookie("token", token));
-            userMapper.insertUser(user);
+            userService.updataOrInsert(user);
             return "redirect:/";//返回根目
         }else {
             return "redirect:/";
         }
+    }
+    @GetMapping("logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response){
+        Cookie cookie = new Cookie("token",null);//cookie名字要相同
+        cookie.setMaxAge(0); //
+        cookie.setPath(request.getContextPath());  // 相同路径
+        response.addCookie(cookie);
+        request.getSession().removeAttribute("user");
+        return "redirect:/";
     }
 }
