@@ -60,13 +60,13 @@ public class AuthorizaController {
             user.setAccount_id(String.valueOf(githubUser.getId()));
             user.setToken(token);//产出随机数作为用户token
             response.addCookie(new Cookie("token", token));
-            userService.updataOrInsert(user);
+            userService.insertOrUpdate(user);
             return "redirect:/";//返回根目
         }else {
             return "redirect:/";
         }
     }
-    @GetMapping("logout")
+    @GetMapping("/logout")
     public String logout(HttpServletRequest request,
                          HttpServletResponse response){
         Cookie cookie = new Cookie("token",null);//cookie名字要相同

@@ -24,7 +24,7 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <a th:href="@{'/question/'+${question.id}}" aria-label="Previous"><h4 class="media-heading" th:text="${question.title}"></h4></a>
                     <span th:text="${question.description}"></span></br>
                     <span>发布人<font color="#999" th:text="${question.user.name}"></br></font></span> |
                     <span>浏览数<font color="#999" th:text="${question.view_count}"></br></font></span> |

@@ -1,13 +1,16 @@
 package com.example.controller;
 
+import com.example.dto.QuestionDto;
 import com.example.mapper.QuestionMapper;
 import com.example.mapper.UserMapper;
 import com.example.model.Question;
 import com.example.model.User;
+import com.example.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
@@ -22,15 +25,19 @@ public class PublishController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private QuestionService questionService;
     @GetMapping("/publish")
     public String publish(){
         return "publish";
     }
+
     @PostMapping("/publish")
-    public String insertQuestion(
-            @RequestParam("title")String title,
-            @RequestParam("description") String description,
-            @RequestParam("tag")String tag,
+    public String dopublish(
+            @RequestParam(value = "title")String title,
+            @RequestParam(value = "description") String description,
+            @RequestParam(value = "tag")String tag,
+            @RequestParam(value = "id")int id,
             HttpServletRequest request,
             Model model
     ){
@@ -59,11 +66,22 @@ public class PublishController {
             question.setDescription(description);
             question.setTag(tag);
             question.setCreator(user.getId());
-            question.setGmt_create(System.currentTimeMillis());
-            question.setGmt_modified(question.getGmt_create());
-            questionMapper.insertQuestion(question);
+            question.setId(id);
+            questionService.insertOrUpdate(question);
             model.addAttribute("error", "发布成功");
         }
         return "publish";
     }
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable("id") int id,
+                                  Model model){
+        Question questionDto = questionMapper.selectByPrimaryKey(id);
+        questionMapper.selectByPrimaryKey(id);
+        model.addAttribute("title", questionDto.getTitle());
+        model.addAttribute("description", questionDto.getDescription());
+        model.addAttribute("tag", questionDto.getTag());
+        model.addAttribute("id", questionDto.getId());
+        return "publish";
+    }
+
 }

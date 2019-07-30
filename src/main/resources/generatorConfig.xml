@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration><!-- 元素是MyBaticGeneratorConfiguration文件的根元素-->
+    <!--  <classPathEntry location="/Program Files/IBM/SQLLIB/java/db2java.zip" />元素用于将类路径位置添加到MyBatiGenerator(MBG)运行的类路径   加载驱动类的语句，pom.xml中添加了可以不加这个语句-->
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/study_use?serverTimezone=GMT&amp;nullCatalogMeansCurrent=true"
+                        userId="root"
+                        password="12345678">
+        </jdbcConnection>
+
+        <javaTypeResolver ><!--JavaType Resolver用于从数据库列信息中计算Java类型 默认是false -->
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.example.model" targetProject="src/main/java"><!--元素用于定义Java模型生成器的属性。Java模型生成器生成与自检表匹配的主键类、记录类和查询类 -->
+            <property name="enableSubPackages" value="true" /><!--当设置为true是会在指定路径下生成子包-->
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mapper"  targetProject="src/main/resources"><!--用于定义SQL映射生成器的属性。SQLMapGenerator为每个自检表构建一个MyB提斯/iBATIS格式的SQL映射XML文件。 -->
+            <property name="enableSubPackages" value="true" /><!--建立一个mapper类，如果存在就覆盖-->
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.example.mapper"  targetProject="src/main/java"><!-- 元素用于定义Java客户端生成器的属性。Java客户端生成器构建Java接口和类，允许轻松使用生成的Java模型和XML映射文件-->
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <table tableName="user" domainObjectName="User" ><!-- -->
+            <property name="useActualColumnNames" value="true"/><!-- 这个是控制驼峰标识的-->
+        </table>
+
+        <table tableName="question" domainObjectName="Question" ><!-- -->
+            <property name="useActualColumnNames" value="true"/><!-- 这个是控制驼峰标识的-->
+        </table>
+
+    </context>
+</generatorConfiguration>
