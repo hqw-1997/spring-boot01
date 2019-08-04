@@ -3,12 +3,14 @@ package com.example.service;
 
 import com.example.dto.QuestionDto;
 import com.example.dto.QuestionPageDto;
+import com.example.exception.CustomException;
+import com.example.exception.ECustomException;
+import com.example.mapper.ExtendQuestionMapper;
 import com.example.mapper.QuestionMapper;
 import com.example.mapper.UserMapper;
 import com.example.model.Question;
 import com.example.model.QuestionExample;
 import com.example.model.User;
-import com.example.model.UserExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class QuestionService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    ExtendQuestionMapper extendQuestionMapper;
 
 
     public QuestionPageDto viewQuestion(Integer page, Integer size){
@@ -86,7 +91,9 @@ public class QuestionService {
     public QuestionDto findQuestionById(Integer id){
         Question question=questionMapper.selectByPrimaryKey(id);
 
-
+        if(question==null){
+            throw new CustomException(ECustomException.QUESTION_NOT_FOUND);
+        }
         long sd=question.getGmt_create();
         Date dat=new Date(sd);
         GregorianCalendar gc = new GregorianCalendar();
@@ -94,6 +101,7 @@ public class QuestionService {
         java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:MM:ss");
         String sb=format.format(gc.getTime());
         QuestionDto questionDto=new QuestionDto();
+        BeanUtils.copyProperties(question, questionDto);
         questionDto.setDate(sb);
         User user=userMapper.selectByPrimaryKey(questionDto.getCreator());
         questionDto.setUser(user);
@@ -102,7 +110,7 @@ public class QuestionService {
 
 
     public void insertOrUpdate(Question question){
-        if(question.getId()==0){
+        if(question.getId()==null){
             question.setGmt_create(System.currentTimeMillis());
             question.setGmt_modified(question.getGmt_create());
             questionMapper.insert(question);
@@ -118,6 +126,14 @@ public class QuestionService {
 
         }
 
+    }
+
+    //增加阅览数
+    public void addView_count(Integer id){
+        Question question=new Question();
+        question.setId(id);
+        question.setView_count(1);
+        extendQuestionMapper.addView_count(question);
     }
     }
 

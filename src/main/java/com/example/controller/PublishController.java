@@ -34,10 +34,10 @@ public class PublishController {
 
     @PostMapping("/publish")
     public String dopublish(
-            @RequestParam(value = "title")String title,
-            @RequestParam(value = "description") String description,
-            @RequestParam(value = "tag")String tag,
-            @RequestParam(value = "id")int id,
+            @RequestParam(value = "title",required = false)String title,
+            @RequestParam(value = "description",required = false) String description,
+            @RequestParam(value = "tag",required = false)String tag,
+            @RequestParam(value = "id", required = false)Integer id,
             HttpServletRequest request,
             Model model
     ){

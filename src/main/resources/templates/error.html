@@ -13,7 +13,8 @@
 <body>
 <div th:replace="~{head :: nav}"></div>
 <div class="jumbotron jumbotron1">
-    <h1>发生错误</h1>
+    <h3 th:text="${code}"></h3>
+    <h3 th:text="${message}">出错了</h3>
     <p>...</p>
     <p><a class="btn btn-primary btn-lg" href="/" role="button">返回主页</a></p>
 </div>

@@ -39,5 +39,8 @@
             <property name="useActualColumnNames" value="true"/><!-- 这个是控制驼峰标识的-->
         </table>
 
+        <table tableName="comment" domainObjectName="Comment" ><!-- -->
+            <property name="useActualColumnNames" value="true"/><!-- 这个是控制驼峰标识的-->
+        </table>
     </context>
 </generatorConfiguration>

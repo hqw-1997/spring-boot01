@@ -16,6 +16,7 @@ public class QuestionController {
     public String question(@PathVariable(name="id")Integer id,
                            Model model){
         QuestionDto questionDto=questionService.findQuestionById(id);
+        questionService.addView_count(id);
         model.addAttribute("question", questionDto);
         return "question";
 
