@@ -11,6 +11,15 @@
     <script src="js/bootstrap.min.js"  type="application/javascript"></script>
 </head>
 <body>
+<script type="application/javascript">
+    window.onload=function(){
+        var close=window.localStorage.getItem("close");
+        if(close=="true"){
+        window.close();
+        window.localStorage.removeItem("close");
+        }
+    }
+</script>
 <div th:replace="~{head :: nav}"></div>
 <div class="container-fluid main">
     <div class="row">
@@ -27,9 +36,10 @@
                     <a th:href="@{'/question/'+${question.id}}" aria-label="Previous"><h4 class="media-heading" th:text="${question.title}"></h4></a>
                     <span th:text="${question.description}"></span></br>
                     <span>发布人<font color="#999" th:text="${question.user.name}"></br></font></span> |
-                    <span>浏览数<font color="#999" th:text="${question.view_count}"></br></font></span> |
-                    <span>点赞数<font color="#999" th:text="${question.comment_count}"></br></font></span> |
-                    <span>发布时间<font color="#999" th:text="${question.date}"></br></font></span>
+                    <span><font color="#999" th:text="'浏览数'+${question.view_count}"></br></font></span> |
+                    <span><font color="#999" th:text="'评论数'+${question.comment_count}"></br></font></span> |
+                    <span><font color="#999" th:text="'点赞数'+${question.like_count}"></br></font></span> |
+                    <span><font color="#999" th:text="'发布时间'+${question.date}"></br></font></span>
 
                 </div>
                 <hr>

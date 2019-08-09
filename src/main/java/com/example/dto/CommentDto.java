@@ -3,7 +3,6 @@ package com.example.dto;
 public class CommentDto {
     private Integer type;
     private int parent_id;
-    private int commentator;
     private String content;
 
     public Integer getType() {
@@ -20,14 +19,6 @@ public class CommentDto {
 
     public void setParent_id(int parent_id) {
         this.parent_id = parent_id;
-    }
-
-    public int getCommentator() {
-        return commentator;
-    }
-
-    public void setCommentator(int commentator) {
-        this.commentator = commentator;
     }
 
     public String getContent() {

@@ -34,3 +34,11 @@ body{
 .jumbotron1{
     margin:45px;
 }
+
+.icon{
+    cursor:pointer;
+}
+
+.icon:hover{
+    color:blue;
+}

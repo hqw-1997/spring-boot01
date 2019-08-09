@@ -3,9 +3,10 @@ package com.example.dto;
 import com.example.exception.CustomException;
 import com.example.exception.ECustomException;
 
-public class ResultDto {
+public class ResultDto<T> {
     private int code;
     private String message;
+    private T data;
 
     public int getCode() {
         return code;
@@ -35,5 +36,11 @@ public class ResultDto {
         resultDto.setCode(e.getCode());
         resultDto.setMessage(e.getMessage());
         return resultDto;
+    }
+    public static ResultDto<T> okOff(Object t){
+        ResultDto resultDto=new ResultDto();
+        resultDto.setCode(t.getCode());
+        resultDto.setMessage(e.getMessage());
+        return ResultDto<T>;
     }
 }
